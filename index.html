@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service des documents référentiels - Ecole Marocaine des Sciences de l'ingénieur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #ffffff;
+            color: #2c3e50;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 15px 12px 40px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* En-tête */
+        .logo-wrapper {
+            margin-top: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo-placeholder {
+            width: 180px;
+            height: 90px;
+            border: 2px dashed #b8c2cc;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .logo-placeholder:hover {
+            border-color: #059669;
+            background-color: #f0fdf4;
+            color: #059669;
+        }
+
+        .logo-placeholder img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .univ-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.55rem;
+            font-weight: 700;
+            text-align: center;
+            color: #1a202c;
+            line-height: 1.35;
+            margin-bottom: 18px;
+            padding: 0 10px;
+        }
+
+        .service-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            text-align: center;
+            color: #2d3748;
+            line-height: 1.35;
+            margin-bottom: 28px;
+            padding: 0 10px;
+        }
+
+        /* Vue Formulaire */
+        .form-card {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .instructions {
+            font-size: 0.95rem;
+            color: #5a6a7e;
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 16px;
+        }
+
+        .field-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .field-label .required {
+            color: #dc2626;
+            margin-left: 2px;
+        }
+
+        .input-text {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 1.05rem;
+            color: #1f2937;
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-text:focus {
+            border-color: #059669;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+        }
+
+        .helper-text {
+            font-size: 0.85rem;
+            color: #6b7280;
+            text-align: center;
+            margin: 10px 0 18px;
+        }
+
+        /* Widget Cloudflare Captcha Authentique (Turnstile style) */
+        .captcha-box-outer {
+            width: 100%;
+            margin-bottom: 14px;
+        }
+
+        .captcha-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #dc2626;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .turnstile-widget {
+            background-color: #222222;
+            color: #ffffff;
+            border-radius: 4px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 68px;
+            user-select: none;
+            border: 1px solid #333333;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+        }
+
+        .turnstile-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+        }
+
+        .turnstile-checkbox {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            border: 2px solid #555555;
+            background: #2b2b2b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .turnstile-checkbox.checking {
+            border-color: #f97316;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .turnstile-checkbox.success {
+            background-color: #22c55e;
+            border-color: #22c55e;
+            border-radius: 50%;
+        }
+
+        .turnstile-checkbox.success svg {
+            display: block;
+        }
+
+        .turnstile-checkbox svg {
+            display: none;
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 3.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .turnstile-status-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .turnstile-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            font-size: 0.65rem;
+            color: #9ca3af;
+        }
+
+        .turnstile-brand {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 3px;
+        }
+
+        .turnstile-logo-icon {
+            width: 32px;
+            height: auto;
+        }
+
+        .turnstile-brand-name {
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            color: #f3f4f6;
+            font-size: 0.72rem;
+        }
+
+        .turnstile-links a {
+            color: #9ca3af;
+            text-decoration: underline;
+            margin: 0 2px;
+            font-size: 0.65rem;
+        }
+
+        .captcha-error {
+            color: #b91c1c;
+            font-size: 0.85rem;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .error-banner {
+            color: #b91c1c;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            width: 100%;
+            margin-bottom: 12px;
+            text-align: center;
+            display: none;
+        }
+
+        /* Bouton Afficher */
+        .btn-submit {
+            width: 100%;
+            background-color: #16a34a;
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            padding: 13px;
+            cursor: pointer;
+            margin-top: 14px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn-submit:hover {
+            background-color: #15803d;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.99);
+        }
+
+        /* Page Données Étudiant */
+        .results-container {
+            width: 100%;
+            display: none;
+        }
+
+        .student-card {
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            background: #ffffff;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .card-header-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a202c;
+            padding: 14px 18px;
+            border-bottom: 1px solid #e5e7eb;
+            background-color: #fafafa;
+        }
+
+        .data-list {
+            padding: 14px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .data-row {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 10px;
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .data-label {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .data-value {
+            font-size: 1.02rem;
+            color: #334155;
+            font-weight: 500;
+        }
+
+        .data-value.matricule {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .data-value.email {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+
+        .badge-verified {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #ecfdf5;
+            color: #047857;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 16px 0 8px;
+            align-self: center;
+            border: 1px solid #a7f3d0;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #f1f5f9;
+            color: #475569;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid #cbd5e1;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn-back:hover {
+            background: #e2e8f0;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header Institutionnel -->
+    <div class="logo-wrapper">
+        <label for="logoUpload" style="cursor: pointer; display: block; width: 100%;">
+            <div class="logo-placeholder" id="logoBox" title="Cliquez pour changer le logo ou choisir une image">
+                <span id="logoText">🏢 [Insérer le logo ici]</span>
+                <span style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;">Cliquez pour uploader</span>
+                <img id="logoPreview" src="" style="display: none;" alt="Logo EMSI">
+            </div>
+        </label>
+        <input type="file" id="logoUpload" accept="image/*" style="display: none;">
+    </div>
+
+    <h1 class="univ-title">Ecole Marocaine des Sciences de l'ingénieur</h1>
+    <h2 class="service-title">Service des documents référentiels</h2>
+
+    <!-- VUE 1 : Formulaire de vérification -->
+    <div id="formSection" class="form-card">
+        <p class="instructions">Veuillez saisir le code au bas du document.</p>
+
+        <div id="errorBanner" class="error-banner">Code invalide. Essayez le code de test : CC-2026-26190567</div>
+
+        <form id="verifyForm" onsubmit="handleVerification(event)">
+            <div class="form-group">
+                <label for="code" class="field-label">Code<span class="required">*</span></label>
+                <input 
+                    type="text" 
+                    id="code" 
+                    class="input-text" 
+                    placeholder="Ex: CC-2026-26190567" 
+                    value="CC-2026-26190567"
+                    required
+                    autocomplete="off"
+                >
+            </div>
+
+            <p class="helper-text">Tous les champs sont obligatoires</p>
+
+            <!-- Captcha Cloudflare Turnstile Mock Authentique (Gratuit & Embarqué) -->
+            <div class="captcha-box-outer">
+                <label class="captcha-label">Captcha*</label>
+                
+                <div class="turnstile-widget" id="captchaWidget">
+                    <div class="turnstile-left" onclick="toggleCaptcha()">
+                        <div class="turnstile-checkbox" id="captchaCheckbox">
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="turnstile-status-text" id="captchaStatus">Je ne suis pas un robot</div>
+                    </div>
+
+                    <div class="turnstile-right">
+                        <div class="turnstile-brand">
+                            <svg class="turnstile-logo-icon" viewBox="0 0 48 24" fill="none">
+                                <path d="M38.5 17.5H11.2C8.3 17.5 6 15.2 6 12.3C6 9.6 8.1 7.4 10.7 7.1C11.7 4.1 14.6 2 18 2C22.1 2 25.5 5.1 25.9 9.1C26.9 8.1 28.3 7.5 29.8 7.5C32.8 7.5 35.2 9.7 35.6 12.6C37.3 12.9 38.5 14.4 38.5 16.2C38.5 16.9 38.5 17.5 38.5 17.5Z" fill="#F48120"/>
+                                <path d="M31.2 17.5H41.5C43.4 17.5 45 15.9 45 14C45 12.2 43.6 10.7 41.8 10.5C41.5 8 39.4 6 36.9 6C35.8 6 34.8 6.4 34 7.1C34.7 8.3 35.1 9.8 35.1 11.3C35.1 11.8 35 12.3 34.9 12.8C35.8 13.5 36.4 14.6 36.4 15.8C36.4 16.4 36.2 17 36 17.5H31.2Z" fill="#FAAD3F"/>
+                            </svg>
+                            <span class="turnstile-brand-name">CLOUDFLARE</span>
+                        </div>
+                        <div class="turnstile-links">
+                            <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">Confidentialité</a> • 
+                            <a href="https://www.cloudflare.com/website-terms/" target="_blank">Aide</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="captchaError" class="captcha-error">Captcha est obligatoire</div>
+            </div>
+
+            <button type="submit" class="btn-submit">Afficher</button>
+        </form>
+    </div>
+
+    <!-- VUE 2 : Résultats des données de l'étudiant -->
+    <div id="resultsSection" class="results-container">
+        <div style="display: flex; justify-content: center; width: 100%;">
+            <div class="badge-verified">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                Document Référentiel Authentifié
+            </div>
+        </div>
+
+        <div class="student-card">
+            <div class="card-header-title">Données étudiant</div>
+            <div class="data-list">
+                <div class="data-row">
+                    <span class="data-label">Nom et Prénom</span>
+                    <span class="data-value" id="studentName">HAJJIA ILHAM</span>
+                </div>
+
+                <div class="data-row">
+                    <span class="data-label">Matricule</span>
+                    <span class="data-value matricule" id="studentMatricule">CC-2026-26190567</span>
+                </div>
+
+                <div class="data-row">
+                    <span class="data-label">Email éducatif</span>
+                    <span class="data-value email" id="studentEmail">ilham.hajjia@emsi-edu.ma</span>
+                </div>
+
+                <div class="data-row">
+                    <span class="data-label">Filière</span>
+                    <span class="data-value" id="studentFiliere">Ingénierie Informatique et Réseaux</span>
+                </div>
+
+                <div class="data-row">
+                    <span class="data-label">Niveau</span>
+                    <span class="data-value" id="studentNiveau">4ème année</span>
+                </div>
+
+                <div class="data-row">
+                    <span class="data-label">Groupe</span>
+                    <span class="data-value" id="studentGroupe">4IIRM G6 (26-27) - G62 (26-27)</span>
+                </div>
+
+                <div class="data-row">
+                    <span class="data-label">Campus</span>
+                    <span class="data-value" id="studentCampus">EMSI HASSAN</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-back" onclick="resetView()">← Effectuer une autre vérification</button>
+    </div>
+</div>
+
+<script>
+    // Configuration & Données de test
+    const VALID_CODE = "CC-2026-26190567";
+
+    let captchaVerified = false;
+    let isProcessingCaptcha = false;
+
+    // Simulation du widget Cloudflare Turnstile instantané / interactif (100% gratuit et sans clé d'API)
+    function toggleCaptcha() {
+        if (captchaVerified || isProcessingCaptcha) return;
+
+        const checkbox = document.getElementById('captchaCheckbox');
+        const status = document.getElementById('captchaStatus');
+        const captchaError = document.getElementById('captchaError');
+
+        captchaError.style.display = 'none';
+        isProcessingCaptcha = true;
+        checkbox.classList.add('checking');
+        status.textContent = 'Vérification en cours...';
+
+        setTimeout(() => {
+            checkbox.classList.remove('checking');
+            checkbox.classList.add('success');
+            status.textContent = 'Succès !';
+            captchaVerified = true;
+            isProcessingCaptcha = false;
+        }, 600);
+    }
+
+    // Gestion de la soumission du formulaire
+    function handleVerification(event) {
+        event.preventDefault();
+        
+        const codeInput = document.getElementById('code').value.trim();
+        const captchaError = document.getElementById('captchaError');
+        const errorBanner = document.getElementById('errorBanner');
+
+        // Vérification Captcha
+        if (!captchaVerified) {
+            captchaError.style.display = 'block';
+            return;
+        } else {
+            captchaError.style.display = 'none';
+        }
+
+        // Vérification du code
+        if (codeInput.toUpperCase() === VALID_CODE.toUpperCase()) {
+            errorBanner.style.display = 'none';
+            // Transition vers la vue des données
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            errorBanner.style.display = 'block';
+            errorBanner.textContent = "Code introuvable. Veuillez vérifier le code saisi (Code de test : " + VALID_CODE + ")";
+        }
+    }
+
+    // Retour au formulaire
+    function resetView() {
+        document.getElementById('resultsSection').style.display = 'none';
+        document.getElementById('formSection').style.display = 'flex';
+        document.getElementById('errorBanner').style.display = 'none';
+        
+        // Reset Captcha pour re-tester
+        const checkbox = document.getElementById('captchaCheckbox');
+        const status = document.getElementById('captchaStatus');
+        checkbox.classList.remove('success', 'checking');
+        status.textContent = 'Je ne suis pas un robot';
+        captchaVerified = false;
+    }
+
+    // Gestionnaire de changement de logo personnalisé
+    document.getElementById('logoUpload').addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const preview = document.getElementById('logoPreview');
+                preview.src = event.target.result;
+                preview.style.display = 'block';
+                document.getElementById('logoText').style.display = 'none';
+                const helper = document.getElementById('logoBox').querySelector('span:nth-child(2)');
+                if (helper) helper.style.display = 'none';
+                document.getElementById('logoBox').style.border = 'none';
+                document.getElementById('logoBox').style.background = 'transparent';
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Fond vert officiel EMSI arrondi -->
+  <rect width="64" height="64" rx="14" fill="#008836"/>
+  
+  <!-- Silhouette emblématique des étudiants EMSI en blanc -->
+  <!-- Étudiant gauche -->
+  <circle cx="21" cy="18" r="4.5" fill="#ffffff"/>
+  <path d="M14 36 C14 27, 28 27, 28 36 Z" fill="#ffffff"/>
+  
+  <!-- Étudiante centre (plus haute) -->
+  <circle cx="32" cy="14" r="5" fill="#ffffff"/>
+  <path d="M23 35 C23 23, 41 23, 41 35 Z" fill="#ffffff"/>
+  
+  <!-- Étudiant droite -->
+  <circle cx="43" cy="18" r="4.5" fill="#ffffff"/>
+  <path d="M36 36 C36 27, 50 27, 50 36 Z" fill="#ffffff"/>
+  
+  <!-- Bloc bandeau socle EMSI gris foncé -->
+  <rect x="10" y="40" width="44" height="15" rx="3" fill="#3a3a3a"/>
+  
+  <!-- Texte EMSI stylisé en blanc -->
+  <text x="32" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1">EMSI</text>
+  
+  <!-- Point losange orange emblématique du logo EMSI -->
+  <rect x="47" y="36" width="3.5" height="3.5" fill="#E85D04" transform="rotate(45 48.75 37.75)"/>
+</svg>

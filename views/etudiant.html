@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Données étudiant - Service des documents référentiels</title>
+    <link rel="icon" type="image/svg+xml" href="/public/images/favicon.svg">
+    <link rel="alternate icon" href="/public/images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #ffffff;
+            color: #2c3e50;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px 14px 40px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Logo EMSI */
+        .logo-wrapper {
+            margin-top: 10px;
+            margin-bottom: 22px;
+            text-align: center;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo-img {
+            max-width: 270px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .univ-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.55rem;
+            font-weight: 700;
+            text-align: center;
+            color: #1a202c;
+            line-height: 1.35;
+            margin-bottom: 18px;
+            padding: 0 10px;
+        }
+
+        .service-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            text-align: center;
+            color: #2d3748;
+            line-height: 1.35;
+            margin-bottom: 28px;
+            padding: 0 10px;
+        }
+
+        .student-card {
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            background: #ffffff;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            margin-bottom: 20px;
+        }
+
+        .card-header-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a202c;
+            padding: 14px 18px;
+            border-bottom: 1px solid #e5e7eb;
+            background-color: #fafafa;
+        }
+
+        .data-list {
+            padding: 14px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .data-row {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 10px;
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .data-label {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .data-value {
+            font-size: 1.02rem;
+            color: #334155;
+            font-weight: 500;
+        }
+
+        .data-value.matricule {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .data-value.email {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+
+        .badge-verified {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #ecfdf5;
+            color: #047857;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 18px;
+            border: 1px solid #a7f3d0;
+        }
+
+        .btn-back {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #f8fafc;
+            color: #334155;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid #cbd5e1;
+            transition: background 0.2s;
+        }
+
+        .btn-back:hover {
+            background: #e2e8f0;
+        }
+
+        .loading-state {
+            padding: 30px;
+            text-align: center;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- En-tête avec Logo EMSI Officiel -->
+    <div class="logo-wrapper">
+        <img src="/public/images/emsi_logo.png" alt="Logo EMSI" class="logo-img">
+    </div>
+
+    <h1 class="univ-title">Ecole Marocaine des Sciences de l'ingénieur</h1>
+    <h2 class="service-title">Service des documents référentiels</h2>
+
+    <div class="badge-verified">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        Document Référentiel Authentifié
+    </div>
+
+    <!-- Carte des données étudiant -->
+    <div class="student-card">
+        <div class="card-header-title">Données étudiant</div>
+        <div class="data-list" id="dataList">
+            <div class="loading-state">Chargement des données...</div>
+        </div>
+    </div>
+
+    <a href="/" class="btn-back">← Vérifier un autre document</a>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+
+    if (!code) {
+        window.location.href = '/';
+    } else {
+        fetchStudentData(code);
+    }
+
+    async function fetchStudentData(studentCode) {
+        const dataList = document.getElementById('dataList');
+        try {
+            const res = await fetch(`/api/student/${encodeURIComponent(studentCode)}`);
+            const result = await res.json();
+
+            if (res.ok && result.success) {
+                const s = result.data;
+                dataList.innerHTML = `
+                    <div class="data-row">
+                        <span class="data-label">Nom et Prénom</span>
+                        <span class="data-value">${escapeHtml(s.nomPrenom)}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Matricule</span>
+                        <span class="data-value matricule">${escapeHtml(s.matricule)}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Email éducatif</span>
+                        <span class="data-value email">${escapeHtml(s.email)}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Filière</span>
+                        <span class="data-value">${escapeHtml(s.filiere)}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Niveau</span>
+                        <span class="data-value">${escapeHtml(s.niveau)}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Groupe</span>
+                        <span class="data-value">${escapeHtml(s.groupe)}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Campus</span>
+                        <span class="data-value">${escapeHtml(s.campus)}</span>
+                    </div>
+                `;
+            } else {
+                dataList.innerHTML = `<div style="color: #dc2626; padding: 20px; text-align: center;">Aucun enregistrement trouvé pour ce matricule.</div>`;
+            }
+        } catch (err) {
+            dataList.innerHTML = `<div style="color: #dc2626; padding: 20px; text-align: center;">Erreur de connexion au serveur.</div>`;
+        }
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+        return text.replace(/[&<>"']/g, m => map[m]);
+    }
+</script>
+
+</body>
+</html>
